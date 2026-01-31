@@ -5,19 +5,53 @@
 <title>Coin Game</title>
 <style>
 body{
-text-align:center;
+margin:0;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
 font-family:Arial;
-background:#111;
 color:white;
 }
+
+.card{
+background:#111;
+padding:30px;
+border-radius:25px;
+box-shadow:0 0 20px #000;
+text-align:center;
+width:300px;
+}
+
 button{
-font-size:30px;
-padding:20px;
+font-size:22px;
+padding:15px 30px;
 border-radius:20px;
+border:none;
+background:#00ffcc;
+margin-top:15px;
+}
+
+.shop{
+margin-top:15px;
+font-size:14px;
 }
 </style>
 </head>
 <body>
+
+<div class="card">
+<h1>🪙 Coin Game</h1>
+
+<h2 id="coin">0</h2>
+
+<button onclick="add()">BOS!</button>
+
+<div class="shop">
+<button onclick="buy()">⚡ +1 Auto (10 coin)</button>
+</div>
+</div>
 
 <h1>🪙 Coin Game</h1>
 <h2 id="coin">0</h2>
@@ -25,19 +59,41 @@ border-radius:20px;
 <button onclick="add()">BOS!</button>
 
 <script>
-let coin = Number(localStorage.getItem("coin") || 0);
+let coin = Number(localStorage.getItem("coin")||0);
+let auto = Number(localStorage.getItem("auto")||0);
 
 function update(){
-document.getElementById("coin").innerHTML = coin;
+coinEl.innerHTML = coin;
 }
+
+let coinEl=document.getElementById("coin");
 
 update();
 
 function add(){
 coin++;
-localStorage.setItem("coin", coin);
+save();
 update();
 }
+
+function buy(){
+if(coin>=10){
+coin-=10;
+auto++;
+save();
+alert("Auto +" + auto);
+}
+}
+
+function save(){
+localStorage.setItem("coin",coin);
+localStorage.setItem("auto",auto);
+}
+
+setInterval(()=>{
+coin+=auto;
+update();
+},1000);
 </script>
 
 </body>
