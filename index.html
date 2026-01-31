@@ -81,11 +81,23 @@ function add(){
 }
 
 function buy(){
- if(coin>=10){
-  coin-=10;
-  auto++;
+
+ if(auto>0) return; // faqat 1 marta sotib olinadi
+
+ if(coin>=300){
+
+  coin-=300;
+
+  auto=1;
+
   save();
-  alert("Auto: " + auto);
+  update();
+
+  setTimeout(()=>{
+   auto=0;
+   save();
+  },21600000); // 6 soat
+
  }
 }
 
