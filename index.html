@@ -3,45 +3,44 @@
 <head>
 <meta charset="UTF-8">
 <title>Coin Game</title>
+
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+
 <style>
 body{
-margin:0;
-height:100vh;
+background:#111;
+color:white;
+font-family:sans-serif;
 display:flex;
 justify-content:center;
 align-items:center;
-background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
-font-family:Arial;
-color:white;
+height:100vh;
 }
 
 .card{
-background:#111;
+background:#222;
 padding:30px;
-border-radius:25px;
-box-shadow:0 0 20px #000;
+border-radius:20px;
 text-align:center;
-width:300px;
+width:280px;
 }
 
 button{
-font-size:22px;
+font-size:20px;
 padding:15px 30px;
-border-radius:20px;
+border-radius:15px;
 border:none;
 background:#00ffcc;
 margin-top:15px;
 }
 
 .shop{
-margin-top:15px;
 font-size:14px;
-}
-button:active{
-transform:scale(0.9);
+margin-top:10px;
 }
 </style>
 </head>
+
 <body>
 
 <div class="card">
@@ -49,72 +48,68 @@ transform:scale(0.9);
 
 <h2 id="coin">0</h2>
 
-<button onclick="add()">BOS!</button>
+<button onclick="add()">BOS</button>
 
 <div class="shop">
-<button onclick="buy()">⚡ +1 Auto (10 coin)</button>
+<button onclick="buy()">⚡ Auto (10 coin)</button>
 </div>
 </div>
 
 <script>
+
 const tg = window.Telegram.WebApp;
 tg.ready();
 
-// Telegram user ID
-const userId = tg.initDataUnsafe?.user?.id || tg.initData?.user?.id || Date.now();
+// User ID
+const userId = tg.initDataUnsafe?.user?.id || "guest";
+
 // Elements
-let coinEl = document.getElementById("coin");
+const coinEl = document.getElementById("coin");
 
-// Load from storage (per user)
+// Load
 let coin = Number(localStorage.getItem("coin_"+userId)) || 0;
-let auto = Number(localStorage.getItem("auto_"+userId)) || 0;
+let autoEnd = Number(localStorage.getItem("autoEnd_"+userId)) || 0;
 
-// Update screen
 function update(){
-  coinEl.innerHTML = coin;
+ coinEl.innerHTML = Math.floor(coin);
 }
 
-// Save
 function save(){
-  localStorage.setItem("coin_"+userId, coin);
-  localStorage.setItem("auto_"+userId, auto);
+ localStorage.setItem("coin_"+userId, coin);
+ localStorage.setItem("autoEnd_"+userId, autoEnd);
 }
 
-// Click coin
+// Click
 function add(){
-  coin++;
-  save();
-  update();
+ coin++;
+ save();
+ update();
 }
 
-// Buy auto (10 coin = 6 soatlik 300 coin)
+// Buy auto (6 soat = 300 coin)
 function buy(){
-  if(coin >= 10){
-    coin -= 10;
+ if(coin < 10) return alert("Coin yetarli emas");
 
-    // 6 soat davomida 300 coin
-    let addCoin = 300;
-    let duration = 6 * 60 * 60 * 1000; // 6 soat
+ coin -= 10;
 
-    let perSecond = addCoin / (duration / 1000);
+ autoEnd = Date.now() + 6*60*60*1000;
 
-    let start = Date.now();
+ save();
 
-    let timer = setInterval(()=>{
-      if(Date.now() - start >= duration){
-        clearInterval(timer);
-      }else{
-        coin += perSecond;
-        update();
-        save();
-      }
-    },1000);
-
-    alert("Avtocoin ishga tushdi (6 soat)");
-  }
+ alert("Avtocoin 6 soatga yoqildi");
 }
+
+// Auto loop
+setInterval(()=>{
+ if(Date.now() < autoEnd){
+ coin += 300 / (6*60*60);
+ save();
+ update();
+ }
+},1000);
 
 update();
+
 </script>
 
 </body>
