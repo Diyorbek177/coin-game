@@ -20,9 +20,42 @@
 </div>
 
 <div id="earn" class="tab">
-<h3>Tap to Earn</h3>
-<h1 id="coins">0</h1>
-<button onclick="tap()">TAP</button>
+
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <div>
+      <div style="font-size:12px;opacity:.6">Coins</div>
+      <div id="coins" style="font-size:26px">0</div>
+    </div>
+
+    <div>
+      <div style="font-size:12px;opacity:.6">Energy</div>
+      <div><span id="energy">500</span>/<span id="maxEnergy">500</span></div>
+    </div>
+  </div>
+
+  <div style="margin-top:60px;text-align:center">
+    <img src="https://i.imgur.com/9QZ6KQy.png"
+         id="coinBtn"
+         onclick="tap()"
+         style="width:200px">
+  </div>
+
+  <div style="margin-top:50px">
+
+    <div class="card">
+      <b>Tap Power</b><br>
+      Level: <span id="tapLevel">1</span><br>
+      <button onclick="upgradeTap()">Upgrade (<span id="tapCost">2000</span>)</button>
+    </div>
+
+    <div class="card">
+      <b>Energy Limit</b><br>
+      Level: <span id="energyLevel">1</span><br>
+      <button onclick="upgradeEnergy()">Upgrade (<span id="energyCost">2000</span>)</button>
+    </div>
+
+  </div>
+
 </div>
 
 <div id="upgrade" class="tab">
