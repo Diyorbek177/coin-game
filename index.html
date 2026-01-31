@@ -25,10 +25,13 @@ border-radius:20px;
 <button onclick="add()">BOS!</button>
 
 <script>
-let coin=0;
+let coin = localStorage.getItem("coin") || 0;
+document.getElementById("coin").innerHTML = coin;
+
 function add(){
 coin++;
-document.getElementById("coin").innerHTML=coin;
+localStorage.setItem("coin", coin);
+document.getElementById("coin").innerHTML = coin;
 }
 </script>
 
