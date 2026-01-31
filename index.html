@@ -57,41 +57,42 @@ transform:scale(0.9);
 </div>
 
 <script>
-let coin = Number(localStorage.getItem("coin")||0);
-let auto = Number(localStorage.getItem("auto")||0);
+let coinEl = document.getElementById("coin");
+
+let coin = Number(localStorage.getItem("coin")) || 0;
+let auto = Number(localStorage.getItem("auto")) || 0;
 
 function update(){
-coinEl.innerHTML = coin;
-}
-
-let coinEl=document.getElementById("coin");
-
-update();
-
-function add(){
-coin++;
-save();
-update();
-}
-
-function buy(){
-if(coin>=10){
-coin-=10;
-auto++;
-save();
-alert("Auto +" + auto);
-}
+ coinEl.innerHTML = coin;
 }
 
 function save(){
-localStorage.setItem("coin",coin);
-localStorage.setItem("auto",auto);
+ localStorage.setItem("coin", coin);
+ localStorage.setItem("auto", auto);
+}
+
+update();
+save();
+
+function add(){
+ coin++;
+ save();
+ update();
+}
+
+function buy(){
+ if(coin>=10){
+  coin-=10;
+  auto++;
+  save();
+  alert("Auto: " + auto);
+ }
 }
 
 setInterval(()=>{
-coin+=auto;
-save();
-update();
+ coin+=auto;
+ save();
+ update();
 },1000);
 </script>
 
