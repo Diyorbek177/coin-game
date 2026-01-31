@@ -61,9 +61,7 @@ const tg = window.Telegram.WebApp;
 tg.ready();
 
 // Telegram user ID
-const userId = tg.initDataUnsafe?.user?.id || "guest";
-alert("Sizning ID: " + userId);
-
+const userId = tg.initDataUnsafe?.user?.id || tg.initData?.user?.id || Date.now();
 // Elements
 let coinEl = document.getElementById("coin");
 
