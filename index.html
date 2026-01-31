@@ -57,55 +57,66 @@ transform:scale(0.9);
 </div>
 
 <script>
+const tg = window.Telegram.WebApp;
+tg.ready();
+
+// Telegram user ID
+const userId = tg.initDataUnsafe?.user?.id || "guest";
+alert("Sizning ID: " + userId);
+
+// Elements
 let coinEl = document.getElementById("coin");
 
-let coin = Number(localStorage.getItem("coin")) || 0;
-let auto = Number(localStorage.getItem("auto")) || 0;
+// Load from storage (per user)
+let coin = Number(localStorage.getItem("coin_"+userId)) || 0;
+let auto = Number(localStorage.getItem("auto_"+userId)) || 0;
 
+// Update screen
 function update(){
- coinEl.innerHTML = coin;
+  coinEl.innerHTML = coin;
 }
 
+// Save
 function save(){
- localStorage.setItem("coin", coin);
- localStorage.setItem("auto", auto);
+  localStorage.setItem("coin_"+userId, coin);
+  localStorage.setItem("auto_"+userId, auto);
+}
+
+// Click coin
+function add(){
+  coin++;
+  save();
+  update();
+}
+
+// Buy auto (10 coin = 6 soatlik 300 coin)
+function buy(){
+  if(coin >= 10){
+    coin -= 10;
+
+    // 6 soat davomida 300 coin
+    let addCoin = 300;
+    let duration = 6 * 60 * 60 * 1000; // 6 soat
+
+    let perSecond = addCoin / (duration / 1000);
+
+    let start = Date.now();
+
+    let timer = setInterval(()=>{
+      if(Date.now() - start >= duration){
+        clearInterval(timer);
+      }else{
+        coin += perSecond;
+        update();
+        save();
+      }
+    },1000);
+
+    alert("Avtocoin ishga tushdi (6 soat)");
+  }
 }
 
 update();
-save();
-
-function add(){
- coin++;
- save();
- update();
-}
-
-function buy(){
-
- if(auto>0) return; // faqat 1 marta sotib olinadi
-
- if(coin>=300){
-
-  coin-=300;
-
-  auto=1;
-
-  save();
-  update();
-
-  setTimeout(()=>{
-   auto=0;
-   save();
-  },21600000); // 6 soat
-
- }
-}
-
-setInterval(()=>{
- coin+=auto;
- save();
- update();
-},1000);
 </script>
 
 </body>
