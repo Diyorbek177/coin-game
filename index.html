@@ -2,115 +2,44 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Coin Game</title>
-
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
-
-<style>
-body{
-background:#111;
-color:white;
-font-family:sans-serif;
-display:flex;
-justify-content:center;
-align-items:center;
-height:100vh;
-}
-
-.card{
-background:#222;
-padding:30px;
-border-radius:20px;
-text-align:center;
-width:280px;
-}
-
-button{
-font-size:20px;
-padding:15px 30px;
-border-radius:15px;
-border:none;
-background:#00ffcc;
-margin-top:15px;
-}
-
-.shop{
-font-size:14px;
-margin-top:10px;
-}
-</style>
+<title>Coin Tap Game</title>
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<div class="card">
-<h1>🪙 Coin Game</h1>
+<h2>🪙 Coin Tap Game</h2>
 
-<h2 id="coin">0</h2>
-
-<button onclick="add()">BOS</button>
-
-<div class="shop">
-<button onclick="buy()">⚡ Auto (10 coin)</button>
-</div>
+<div class="menu">
+<button onclick="openTab('earn')">Earn</button>
+<button onclick="openTab('upgrade')">Upgrade</button>
+<button onclick="openTab('friends')">Friends</button>
+<button onclick="openTab('profile')">Profile</button>
 </div>
 
-<script>
+<div id="earn" class="tab">
+<h3>Tap to Earn</h3>
+<h1 id="coins">0</h1>
+<button onclick="tap()">TAP</button>
+</div>
 
-const tg = window.Telegram.WebApp;
-tg.ready();
+<div id="upgrade" class="tab">
+<h3>Upgrade</h3>
+<p>Tap Power: <span id="powerDisplay">1</span></p>
+<button onclick="buyPower()">+1 Power — Cost: <span id="powerCost">50</span></button>
+</div>
 
-// User ID
-const userId = tg.initDataUnsafe?.user?.id || "guest";
+<div id="friends" class="tab">
+<h3>Friends</h3>
+<p>Your referral code:</p>
+<input type="text" id="refCode" readonly>
+</div>
 
-// Elements
-const coinEl = document.getElementById("coin");
+<div id="profile" class="tab">
+<h3>Profile</h3>
+<p>Total coins ever earned: <span id="total">0</span></p>
+</div>
 
-// Load
-let coin = Number(localStorage.getItem("coin_"+userId)) || 0;
-let autoEnd = Number(localStorage.getItem("autoEnd_"+userId)) || 0;
-
-function update(){
- coinEl.innerHTML = Math.floor(coin);
-}
-
-function save(){
- localStorage.setItem("coin_"+userId, coin);
- localStorage.setItem("autoEnd_"+userId, autoEnd);
-}
-
-// Click
-function add(){
- coin++;
- save();
- update();
-}
-
-// Buy auto (6 soat = 300 coin)
-function buy(){
- if(coin < 10) return alert("Coin yetarli emas");
-
- coin -= 10;
-
- autoEnd = Date.now() + 6*60*60*1000;
-
- save();
-
- alert("Avtocoin 6 soatga yoqildi");
-}
-
-// Auto loop
-setInterval(()=>{
- if(Date.now() < autoEnd){
- coin += 300 / (6*60*60);
- save();
- update();
- }
-},1000);
-
-update();
-
-</script>
-
+<script src="app.js"></script>
 </body>
 </html>
