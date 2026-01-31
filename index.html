@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Coin Game</title>
+<style>
+body{
+text-align:center;
+font-family:Arial;
+background:#111;
+color:white;
+}
+button{
+font-size:30px;
+padding:20px;
+border-radius:20px;
+}
+</style>
+</head>
+<body>
+
+<h1>🪙 Coin Game</h1>
+<h2 id="coin">0</h2>
+
+<button onclick="add()">BOS!</button>
+
+<script>
+let coin=0;
+function add(){
+coin++;
+document.getElementById("coin").innerHTML=coin;
+}
+</script>
+
+</body>
+</html>
