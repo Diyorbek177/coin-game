@@ -37,6 +37,9 @@ margin-top:15px;
 margin-top:15px;
 font-size:14px;
 }
+button:active{
+transform:scale(0.9);
+}
 </style>
 </head>
 <body>
@@ -52,11 +55,6 @@ font-size:14px;
 <button onclick="buy()">⚡ +1 Auto (10 coin)</button>
 </div>
 </div>
-
-<h1>🪙 Coin Game</h1>
-<h2 id="coin">0</h2>
-
-<button onclick="add()">BOS!</button>
 
 <script>
 let coin = Number(localStorage.getItem("coin")||0);
