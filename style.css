@@ -51,3 +51,6 @@ button {
   margin-top: 10px;
   background: #f5b400;
 }
+#coinBtn {
+  filter: drop-shadow(0 0 20px gold);
+}
