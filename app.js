@@ -1,78 +1,84 @@
-const tg = window.Telegram.WebApp;
-tg.ready();
-tg.expand();
+let coinsCount = parseInt(localStorage.getItem("coins")) || 0;
+let energy = parseInt(localStorage.getItem("energy")) || 500;
+let maxEnergy = parseInt(localStorage.getItem("maxEnergy")) || 500;
 
-let coins = 0;
+let tapPower = parseInt(localStorage.getItem("tapPower")) || 1;
+let tapLevel = parseInt(localStorage.getItem("tapLevel")) || 1;
+let energyLevel = parseInt(localStorage.getItem("energyLevel")) || 1;
 
-let tapLevel = 1;
-let tapCost = 2000;
+let tapCost = parseInt(localStorage.getItem("tapCost")) || 2000;
+let energyCost = parseInt(localStorage.getItem("energyCost")) || 2000;
 
-let energyLevel = 1;
-let maxEnergy = 500;
-let energy = 500;
-let energyCost = 2000;
+updateUI();
 
-function update() {
-  coins.innerText = coinsCount;
+function updateUI() {
+  document.getElementById("coins").innerText = coinsCount;
+  document.getElementById("energy").innerText = energy;
+  document.getElementById("maxEnergy").innerText = maxEnergy;
+
+  document.getElementById("tapLevel").innerText = tapLevel;
+  document.getElementById("energyLevel").innerText = energyLevel;
+
+  document.getElementById("tapCost").innerText = tapCost;
+  document.getElementById("energyCost").innerText = energyCost;
 }
 
-const coinsEl = document.getElementById("coins");
+function save() {
+  localStorage.setItem("coins", coinsCount);
+  localStorage.setItem("energy", energy);
+  localStorage.setItem("maxEnergy", maxEnergy);
 
-function refresh() {
-  coinsEl.innerText = coins;
-  energyEl.innerText = energy;
-  maxEnergyEl.innerText = maxEnergy;
+  localStorage.setItem("tapPower", tapPower);
+  localStorage.setItem("tapLevel", tapLevel);
+  localStorage.setItem("energyLevel", energyLevel);
 
-  tapLevelEl.innerText = tapLevel;
-  tapCostEl.innerText = tapCost;
-
-  energyLevelEl.innerText = energyLevel;
-  energyCostEl.innerText = energyCost;
+  localStorage.setItem("tapCost", tapCost);
+  localStorage.setItem("energyCost", energyCost);
 }
-
-const energyEl = document.getElementById("energy");
-const maxEnergyEl = document.getElementById("maxEnergy");
-const tapLevelEl = document.getElementById("tapLevel");
-const tapCostEl = document.getElementById("tapCost");
-const energyLevelEl = document.getElementById("energyLevel");
-const energyCostEl = document.getElementById("energyCost");
 
 function tap() {
   if (energy <= 0) return;
 
-  coins += tapLevel;
+  coinsCount += tapPower;
   energy--;
 
-  refresh();
+  updateUI();
+  save();
 }
 
 function upgradeTap() {
-  if (coins < tapCost) return alert("Coin yetarli emas");
+  if (coinsCount < tapCost) return alert("Coin yetarli emas");
 
-  coins -= tapCost;
+  coinsCount -= tapCost;
   tapLevel++;
-  tapCost *= 5;
+  tapPower++;
 
-  refresh();
+  tapCost = tapCost * 5;
+
+  updateUI();
+  save();
 }
 
 function upgradeEnergy() {
-  if (coins < energyCost) return alert("Coin yetarli emas");
+  if (coinsCount < energyCost) return alert("Coin yetarli emas");
 
-  coins -= energyCost;
+  coinsCount -= energyCost;
   energyLevel++;
+
   maxEnergy += 500;
   energy = maxEnergy;
-  energyCost *= 5;
 
-  refresh();
+  energyCost = energyCost * 5;
+
+  updateUI();
+  save();
 }
 
+// Auto energy refill (5 minutda to‘lib boradi)
 setInterval(() => {
   if (energy < maxEnergy) {
     energy++;
-    refresh();
+    updateUI();
+    save();
   }
-}, 300000 / maxEnergy);
-
-refresh();
+}, 600); // har 0.6 sekundda 1 energy (500 = 5 minut)
