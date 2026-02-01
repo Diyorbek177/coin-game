@@ -1,46 +1,53 @@
-body{
-  background:#111;
-  color:white;
-  text-align:center;
-  font-family:sans-serif;
-  margin:0;
-  padding-bottom:80px;
+body {
+  margin: 0;
+  background: #0b0b0b;
+  color: white;
+  font-family: Arial;
 }
 
-.tab{
-  display:none;
+#app {
+  padding: 15px;
 }
 
-button{
-  padding:15px;
-  border:none;
-  border-radius:10px;
-  cursor:pointer;
-  background:#444;
-  color:white;
+#top {
+  display: flex;
+  justify-content: space-between;
 }
 
-/* Pastki menyu */
-.menu{
-  position:fixed;
-  bottom:0;
-  left:0;
-  width:100%;
-  display:flex;
-  justify-content:space-around;
-  background:#111;
-  padding:10px 0;
-  border-top:1px solid #333;
+.label {
+  font-size: 12px;
+  opacity: .6;
 }
 
-.menu button{
-  flex:1;
-  margin:0 5px;
-  padding:12px 0;
-  background:#222;
-  font-size:14px;
+#coins {
+  font-size: 26px;
 }
-html, body {
-  touch-action: manipulation;
-  overscroll-behavior: none;
+
+#center {
+  text-align: center;
+  margin: 60px 0;
+}
+
+#coinBtn {
+  width: 220px;
+}
+
+#coinBtn:active {
+  transform: scale(.9);
+}
+
+.card {
+  background: #151515;
+  border-radius: 15px;
+  padding: 15px;
+  margin-bottom: 15px;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  margin-top: 10px;
+  background: #f5b400;
 }
