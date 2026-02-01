@@ -2,45 +2,35 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Coin Tap Game</title>
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<link rel="stylesheet" href="style.css?v=10">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UzCoin</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 
 <body>
 
-<h2>🪙 Coin Tap Game</h2>
+<div id="app">
 
-<div class="menu">
-<button onclick="openTab('earn')">Earn</button>
-<button onclick="openTab('upgrade')">Upgrade</button>
-<button onclick="openTab('friends')">Friends</button>
-<button onclick="openTab('profile')">Profile</button>
-</div>
-
-<div id="earn" class="tab">
-
-  <div style="display:flex;justify-content:space-between;align-items:center">
+  <div id="top">
     <div>
-      <div style="font-size:12px;opacity:.6">Coins</div>
-      <div id="coins" style="font-size:26px">0</div>
+      <div class="label">Coins</div>
+      <div id="coins">0</div>
     </div>
 
     <div>
-      <div style="font-size:12px;opacity:.6">Energy</div>
+      <div class="label">Energy</div>
       <div><span id="energy">500</span>/<span id="maxEnergy">500</span></div>
     </div>
   </div>
 
-  <div style="margin-top:60px;text-align:center">
-    <img src="https://i.imgur.com/9QZ6KQy.png"
-         id="coinBtn"
-         onclick="tap()"
-         style="width:200px">
+  <div id="center">
+    <img id="coinBtn"
+      src="https://upload.wikimedia.org/wikipedia/commons/1/1e/Gold_coin_icon.png"
+      onclick="tap()">
   </div>
 
-  <div style="margin-top:50px">
+  <div id="upgrades">
 
     <div class="card">
       <b>Tap Power</b><br>
@@ -58,60 +48,7 @@
 
 </div>
 
-<div id="upgrade" class="tab">
-<h3>Upgrade</h3>
-<p>Tap Power: <span id="powerDisplay">1</span></p>
-<button onclick="buyPower()">+1 Power — Cost: <span id="powerCost">50</span></button>
-</div>
-
-<div id="friends" class="tab">
-<h3>Friends</h3>
-<p>Your referral code:</p>
-<input type="text" id="refCode" readonly>
-</div>
-
-<div id="profile" class="tab">
-<h3>Profile</h3>
-
-<p>Name: <span id="tgName">...</span></p>
-<p>Telegram ID: <span id="tgId">...</span></p>
-
-<p>Total coins ever earned: <span id="total">0</span></p>
-</div>
-
 <script src="app.js"></script>
-  <script>
-openTab('earn');
 
-// Zoom block
-document.addEventListener('gesturestart', e => e.preventDefault());
-document.addEventListener('gesturechange', e => e.preventDefault());
-document.addEventListener('gestureend', e => e.preventDefault());
-
-let lastTouchEnd = 0;
-document.addEventListener('touchend', function (event) {
-  let now = (new Date()).getTime();
-  if (now - lastTouchEnd <= 300) {
-    event.preventDefault();
-  }
-  lastTouchEnd = now;
-}, false);
-  </script>
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
-
-<script>
-const tg = window.Telegram.WebApp;
-tg.ready();
-tg.expand();
-
-const user = tg.initDataUnsafe.user;
-
-if (user) {
-  document.getElementById("tgName").innerText =
-    (user.first_name || "") + " " + (user.last_name || "");
-
-  document.getElementById("tgId").innerText = user.id;
-}
-</script>
 </body>
 </html>
